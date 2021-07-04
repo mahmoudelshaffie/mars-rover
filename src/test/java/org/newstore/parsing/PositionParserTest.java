@@ -61,4 +61,13 @@ public class PositionParserTest {
 		// Actual
 		assertThrows(InvalidPositionInputException.class, () -> target.parse(inValidInputWithoutOpenBracket));
 	}
+	
+	@Test
+	public void testParseGivenInValidInputWithoutCommaSeparatorForCoordinatesShouldFailWithInvalidPositionInputException() {
+		// Given
+		String inValidInputWithoutCommaSeparator = "(6 9) NORTH";
+		
+		// Actual
+		assertThrows(InvalidPositionInputException.class, () -> target.parse(inValidInputWithoutCommaSeparator));
+	}
 }
