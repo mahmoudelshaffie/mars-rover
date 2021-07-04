@@ -41,7 +41,11 @@ public class PositionParser implements InputParser<Position> {
 	
 	private int getCooardinatesSeparatorIndex(String input) {
 		final char coordinatesSeparator = ',';
-		return input.indexOf(coordinatesSeparator);
+		int commaSepartorIndex = input.indexOf(coordinatesSeparator);
+		if (commaSepartorIndex == NOT_FOUND) {
+			throw new InvalidPositionInputException(input, POSITION_FORMAT);
+		}
+		return commaSepartorIndex;
 	}
 	
 	private int getIndexOfTheEndOfCoordinates(String input) {
