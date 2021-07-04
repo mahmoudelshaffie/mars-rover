@@ -24,10 +24,14 @@ public class PositionParser implements InputParser<Position> {
 		int startOfCoordinates = getCooardinatesStartIndex(input);
 		int coordinatesSeparatorIndex = getCooardinatesSeparatorIndex(input, startOfCoordinates);
 		int endOfCoordinates = getIndexOfTheEndOfCoordinates(input, coordinatesSeparatorIndex);
-		int latitude = parseLatitude(input, coordinatesSeparatorIndex);
-		int longtitude = parseLongtitude(input, coordinatesSeparatorIndex, endOfCoordinates);
-		Direction direction = parseDirection(input, endOfCoordinates);
-		return new Position(latitude, longtitude, direction);
+		try {
+			int latitude = parseLatitude(input, coordinatesSeparatorIndex);
+			int longtitude = parseLongtitude(input, coordinatesSeparatorIndex, endOfCoordinates);
+			Direction direction = parseDirection(input, endOfCoordinates);
+			return new Position(latitude, longtitude, direction);
+		} catch (Exception cause) {
+			throw new InvalidPositionInputException(input, POSITION_FORMAT, cause);
+		}
 	}
 	
 	private int getCooardinatesStartIndex(String input) {
