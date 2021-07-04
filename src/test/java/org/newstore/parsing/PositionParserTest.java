@@ -2,9 +2,11 @@ package org.newstore.parsing;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.newstore.parsing.exceptions.InvalidPositionInputException;
 import org.newstore.rover.Direction;
 import org.newstore.rover.Position;
 
@@ -45,9 +47,18 @@ public class PositionParserTest {
 		assertPositionIsParsedAsExpected(expectedLatitude, expectedLongtitude, expectedDirection, actual);
 	}
 	
-	void assertPositionIsParsedAsExpected(int expectedLatitude, int expectedLongtitude, Direction expectedDirection, Position actual) {
+	private void assertPositionIsParsedAsExpected(int expectedLatitude, int expectedLongtitude, Direction expectedDirection, Position actual) {
 		assertEquals(expectedLatitude, actual.getLatitude(), "Parsed value of position's latitude is not as expected");
 		assertEquals(expectedLongtitude, actual.getLongtitude(), "Parsed value of position's longtitude is not as expected");
 		assertEquals(expectedDirection, actual.getDirection(), "Parsed value of position's direction is not as expected");
+	}
+	
+	@Test
+	public void testParseGivenInValidInputWithoutOpenBracketForCoordinatesShouldFailWithInvalidPositionInputException() {
+		// Given
+		String inValidInputWithoutOpenBracket = "6, 9) NORTH";
+		
+		// Actual
+		assertThrows(InvalidPositionInputException.class, () -> target.parse(inValidInputWithoutOpenBracket));
 	}
 }
