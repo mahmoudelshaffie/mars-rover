@@ -47,6 +47,22 @@ public class PositionParserTest {
 		assertPositionIsParsedAsExpected(expectedLatitude, expectedLongtitude, expectedDirection, actual);
 	}
 	
+	@Test
+	public void testParseGivenValidInputWithNegativeLatitudeShoudBeParsedSuccessfullyAndInitializedWithInputValues() {
+		// Given
+		String validInput = "(-6, 9) NORTH";
+
+		// Actual
+		Position actual = target.parse(validInput);
+
+		// Expect
+		final int expectedLatitude = -6;
+		final int expectedLongtitude = 9;
+		final Direction expectedDirection = Direction.NORTH;
+
+		assertPositionIsParsedAsExpected(expectedLatitude, expectedLongtitude, expectedDirection, actual);
+	}
+	
 	private void assertPositionIsParsedAsExpected(int expectedLatitude, int expectedLongtitude, Direction expectedDirection, Position actual) {
 		assertEquals(expectedLatitude, actual.getLatitude(), "Parsed value of position's latitude is not as expected");
 		assertEquals(expectedLongtitude, actual.getLongtitude(), "Parsed value of position's longtitude is not as expected");
