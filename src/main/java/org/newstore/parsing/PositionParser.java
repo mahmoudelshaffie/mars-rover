@@ -5,6 +5,11 @@ import org.newstore.rover.Position;
 public class PositionParser implements InputParser<Position> {
 
 	public Position parse(String position) {
-		throw new UnsupportedOperationException("Not Supported Yet");
+		Position parsedPosition = null;
+		position = position.trim();
+		if (position.isBlank()) {
+			parsedPosition = new Position();
+		}
+		return parsedPosition;
 	}
 }
