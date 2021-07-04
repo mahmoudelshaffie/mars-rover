@@ -74,19 +74,19 @@ public class PositionParserTest {
 	@Test
 	public void testParseGivenInValidInputWithoutClosedBrackedForCoordinatesShouldFailWithInvalidPositionInputException() {
 		// Given
-		String inValidInputWithoutCommaSeparator = "(6, 9 NORTH";
+		String inValidInputWithoutClosedBracket = "(6, 9 NORTH";
 		
 		// Actual
-		assertThrows(InvalidPositionInputException.class, () -> target.parse(inValidInputWithoutCommaSeparator));
+		assertThrows(InvalidPositionInputException.class, () -> target.parse(inValidInputWithoutClosedBracket));
 	}
 	
 	@Test
 	public void testParseGivenInValidInputWithInvalidDirectionShouldFailWithInvalidPositionInputException() {
 		// Given
-		String inValidInputWithoutCommaSeparator = "(6, 9) NOR";
+		String inValidInputWithInvalidDirection = "(6, 9) NOR";
 		
 		// Actual
-		assertThrows(InvalidPositionInputException.class, () -> target.parse(inValidInputWithoutCommaSeparator));
+		assertThrows(InvalidPositionInputException.class, () -> target.parse(inValidInputWithInvalidDirection));
 	}
 	
 	@Test
