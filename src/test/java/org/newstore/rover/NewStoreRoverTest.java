@@ -49,7 +49,7 @@ public class NewStoreRoverTest {
 	}
 	
 	@Test
-	public void testMoveGivenOnlyForwardToTheSouthFromInitialPositionShouldLongtitudeIncreasedByOneSuccessfully() {
+	public void testMoveGivenOnlyForwardToTheSouthFromInitialPositionShouldLongtitudeDecreasedByOneSuccessfully() {
 		// Given
 		int latitude = 0;
 		int longtitude = 0;
@@ -67,6 +67,27 @@ public class NewStoreRoverTest {
 		Direction expectDirectionNotChanged = Direction.SOUTH;
 		
 		assertRoverNewPosition(expectLatitudeNotChanged, expectLongtitudedDecreasedByOne, expectDirectionNotChanged, actual);
+	}
+	
+	@Test
+	public void testMoveGivenOnlyForwardToEastFromInitialPositionShouldLatitudeIncreasedByOneSuccessfully() {
+		// Given
+		int latitude = 0;
+		int longtitude = 0;
+		Position initialPosition = new Position(latitude, longtitude, Direction.EAST);
+		
+		NewStoreMarsRover marsRover = new NewStoreMarsRover(initialPosition);
+		String command = "F";
+		
+		// Actual
+		Position actual = marsRover.move(command);
+		
+		// Expected
+		int expectLatitudeIncreaseByOne = 1;
+		int expectLongtitudedNotChanged = 0;
+		Direction expectDirectionNotChanged = Direction.EAST;
+		
+		assertRoverNewPosition(expectLatitudeIncreaseByOne, expectLongtitudedNotChanged, expectDirectionNotChanged, actual);
 	}
 	
 	private void assertRoverNewPosition(int expectedLatitude, int expectedLongtitude, Direction expectedDirection, Position actual) {
