@@ -90,6 +90,27 @@ public class NewStoreRoverTest {
 		assertRoverNewPosition(expectLatitudeIncreaseByOne, expectLongtitudedNotChanged, expectDirectionNotChanged, actual);
 	}
 	
+	@Test
+	public void testMoveGivenOnlyForwardToWestFromInitialPositionShouldLatitudedDecreasedByOneSuccessfully() {
+		// Given
+		int latitude = 0;
+		int longtitude = 0;
+		Position initialPosition = new Position(latitude, longtitude, Direction.WEST);
+		
+		NewStoreMarsRover marsRover = new NewStoreMarsRover(initialPosition);
+		String command = "F";
+		
+		// Actual
+		Position actual = marsRover.move(command);
+		
+		// Expected
+		int expectLatitudeDecreaseByOne = -1;
+		int expectLongtitudedNotChanged = 0;
+		Direction expectDirectionNotChanged = Direction.WEST;
+		
+		assertRoverNewPosition(expectLatitudeDecreaseByOne, expectLongtitudedNotChanged, expectDirectionNotChanged, actual);
+	}
+	
 	private void assertRoverNewPosition(int expectedLatitude, int expectedLongtitude, Direction expectedDirection, Position actual) {
 		assertEquals(expectedLatitude, actual.getLatitude(), "Actual latitude coordinate is not as expected");
 		assertEquals(expectedLongtitude, actual.getLongtitude(), "Actual longtitude coordinate is not as expected");
