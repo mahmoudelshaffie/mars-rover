@@ -33,4 +33,8 @@ public class Position {
 	public Position newLongtitude(int newLongtitude) {
 		return new Position(latitude, newLongtitude, direction);
 	}
+
+	public Position newLatitude(int newLatitude) {
+		return new Position(newLatitude, longtitude, direction);
+	}
 }
