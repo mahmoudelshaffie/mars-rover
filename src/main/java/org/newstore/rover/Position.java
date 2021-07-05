@@ -30,11 +30,9 @@ public class Position {
 		return direction;
 	}
 	
-	public Position newLongtitude(int newLongtitude) {
-		return new Position(latitude, newLongtitude, direction);
-	}
-
-	public Position newLatitude(int newLatitude) {
-		return new Position(newLatitude, longtitude, direction);
+	Position add(int latitudeDelta, int longtitudeDelta) {
+		int newLatitude = latitude + latitudeDelta;
+		int newLongtitude = longtitude + longtitudeDelta;
+		return new Position(newLatitude, newLongtitude, direction);
 	}
 }

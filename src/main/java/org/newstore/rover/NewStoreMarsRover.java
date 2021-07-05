@@ -34,22 +34,9 @@ public class NewStoreMarsRover implements Rover {
 		return newPosition;
 	}
 	
-	
 	private Position moveForward() {
-		Position newPosition = current;
-		if (current.getDirection() == Direction.NORTH) {
-			int newLongtitude = current.getLongtitude() + 1;
-			newPosition = current.newLongtitude(newLongtitude);
-		} else if (current.getDirection() == Direction.SOUTH) {
-			int newLongtitude = current.getLongtitude() - 1;
-			newPosition = current.newLongtitude(newLongtitude);
-		} else if (current.getDirection() == Direction.EAST) {
-			int newLatitude = current.getLatitude() + 1;
-			newPosition = current.newLatitude(newLatitude);
-		} else {
-			int newLatitude = current.getLatitude() - 1;
-			newPosition = current.newLatitude(newLatitude);
-		}
-		return newPosition;
+		int latitudeDelta = current.getDirection().getForwardLatitudeDelta();
+		int longtitudeDelta = current.getDirection().getForwardLongtitudeDelta();
+		return current.add(latitudeDelta, longtitudeDelta);
 	}
 }
