@@ -2,6 +2,7 @@ package org.newstore.rover;
 
 public class NewStoreMarsRover implements Rover {
 
+	private final char FORWARD = 'F';	
 	private Position current;
 	
 	public NewStoreMarsRover(Position current) {
@@ -18,6 +19,28 @@ public class NewStoreMarsRover implements Rover {
 	}
 	
 	private Position move(char move) {
-		throw new UnsupportedOperationException("Not Supported Yet");
+		Position newPosition;
+		
+		switch (move) {
+		case FORWARD:
+			newPosition = moveForward();
+			break;
+
+		default:
+			newPosition = current;
+			break;
+		}
+		
+		return newPosition;
+	}
+	
+	
+	private Position moveForward() {
+		Position newPosition = current;
+		if (current.getDirection() == Direction.NORTH) {
+			int newLongtitude = current.getLongtitude() + 1;
+			newPosition = current.newLongtitude(newLongtitude);
+		}
+		return newPosition;
 	}
 }

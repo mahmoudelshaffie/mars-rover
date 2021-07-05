@@ -29,4 +29,8 @@ public class Position {
 	public Direction getDirection() {
 		return direction;
 	}
+	
+	public Position newLongtitude(int newLongtitude) {
+		return new Position(latitude, newLongtitude, direction);
+	}
 }
