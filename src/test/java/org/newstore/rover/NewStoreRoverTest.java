@@ -1,6 +1,7 @@
 package org.newstore.rover;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.newstore.rover.PositionAssertions.assertPositionCoordinatesAndDirection;
 
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +25,7 @@ public class NewStoreRoverTest {
 		int expectLongtitudeNotChanged = 0;
 		Direction expectDirectionNotChanged = Direction.NORTH;
 		
-		assertRoverNewPosition(expectLatitudeNotChanged, expectLongtitudeNotChanged, expectDirectionNotChanged, actual);
+		assertPositionCoordinatesAndDirection(expectLatitudeNotChanged, expectLongtitudeNotChanged, expectDirectionNotChanged, actual);
 	}
 
 	@Test
@@ -45,7 +46,7 @@ public class NewStoreRoverTest {
 		int expectLongtitudedIncreasedByOne = 1;
 		Direction expectDirectionNotChanged = Direction.NORTH;
 		
-		assertRoverNewPosition(expectLatitudeNotChanged, expectLongtitudedIncreasedByOne, expectDirectionNotChanged, actual);
+		assertPositionCoordinatesAndDirection(expectLatitudeNotChanged, expectLongtitudedIncreasedByOne, expectDirectionNotChanged, actual);
 	}
 	
 	@Test
@@ -66,7 +67,7 @@ public class NewStoreRoverTest {
 		int expectLongtitudedDecreasedByOne = -1;
 		Direction expectDirectionNotChanged = Direction.SOUTH;
 		
-		assertRoverNewPosition(expectLatitudeNotChanged, expectLongtitudedDecreasedByOne, expectDirectionNotChanged, actual);
+		assertPositionCoordinatesAndDirection(expectLatitudeNotChanged, expectLongtitudedDecreasedByOne, expectDirectionNotChanged, actual);
 	}
 	
 	@Test
@@ -87,7 +88,7 @@ public class NewStoreRoverTest {
 		int expectLongtitudedNotChanged = 0;
 		Direction expectDirectionNotChanged = Direction.EAST;
 		
-		assertRoverNewPosition(expectLatitudeIncreaseByOne, expectLongtitudedNotChanged, expectDirectionNotChanged, actual);
+		assertPositionCoordinatesAndDirection(expectLatitudeIncreaseByOne, expectLongtitudedNotChanged, expectDirectionNotChanged, actual);
 	}
 	
 	@Test
@@ -108,12 +109,6 @@ public class NewStoreRoverTest {
 		int expectLongtitudedNotChanged = 0;
 		Direction expectDirectionNotChanged = Direction.WEST;
 		
-		assertRoverNewPosition(expectLatitudeDecreaseByOne, expectLongtitudedNotChanged, expectDirectionNotChanged, actual);
-	}
-	
-	private void assertRoverNewPosition(int expectedLatitude, int expectedLongtitude, Direction expectedDirection, Position actual) {
-		assertEquals(expectedLatitude, actual.getLatitude(), "Actual latitude coordinate is not as expected");
-		assertEquals(expectedLongtitude, actual.getLongtitude(), "Actual longtitude coordinate is not as expected");
-		assertEquals(expectedDirection, actual.getDirection(), "Actual direction is not as expected");
-	}
+		assertPositionCoordinatesAndDirection(expectLatitudeDecreaseByOne, expectLongtitudedNotChanged, expectDirectionNotChanged, actual);
+	}	
 }
