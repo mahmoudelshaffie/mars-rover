@@ -46,7 +46,10 @@ public class NewStoreMarsRover implements Rover {
 		} else if (current.getDirection() == Direction.EAST) {
 			int newLatitude = current.getLatitude() + 1;
 			newPosition = current.newLatitude(newLatitude);
-		} 
+		} else {
+			int newLatitude = current.getLatitude() - 1;
+			newPosition = current.newLatitude(newLatitude);
+		}
 		return newPosition;
 	}
 }
