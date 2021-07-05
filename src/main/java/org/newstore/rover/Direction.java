@@ -1,5 +1,5 @@
 package org.newstore.rover;
 
 public enum Direction {
-	NORTH;
+	NORTH, SOUTH;
 }
