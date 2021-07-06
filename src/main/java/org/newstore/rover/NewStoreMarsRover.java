@@ -39,6 +39,7 @@ public class NewStoreMarsRover implements Rover {
 		return current;
 	}
 	
+	@Override
 	public Position getPosition() {
 		return current;
 	}
