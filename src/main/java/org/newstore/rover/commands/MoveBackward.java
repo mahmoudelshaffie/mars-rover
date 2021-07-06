@@ -3,6 +3,8 @@ package org.newstore.rover.commands;
 import org.newstore.rover.Position;
 
 public class MoveBackward implements Command {
+	
+	private final Character commandInput = 'B';
 
 	@Override
 	public Position move(Position current) {
@@ -11,4 +13,8 @@ public class MoveBackward implements Command {
 		return current.add(latitudeDelta, longtitudeDelta);
 	}
 
+	@Override
+	public Character getCommandInput() {
+		return commandInput;
+	}
 }

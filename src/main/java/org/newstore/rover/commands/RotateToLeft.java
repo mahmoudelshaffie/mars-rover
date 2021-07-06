@@ -5,6 +5,8 @@ import org.newstore.rover.Position;
 
 public class RotateToLeft implements Command {
 
+	private Character commandInput = 'L';
+
 	@Override
 	public Position move(Position current) {
 		Direction currentDirection = current.getDirection();
@@ -33,6 +35,11 @@ public class RotateToLeft implements Command {
 		}
 		
 		return current.newDirection(newDirection);
+	}
+
+	@Override
+	public Character getCommandInput() {
+		return commandInput;
 	}
 
 }
