@@ -1,5 +1,6 @@
 package org.newstore.rover.commands;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.newstore.rover.commands.CommandMoveTest.target;
 
 import org.junit.jupiter.api.Test;
@@ -72,4 +73,11 @@ public class RotateToLeftTest {
 			.expect(currentLatitude, currentLongtitude, expectedRotateToNorth)
 			.test();
 	}
+	
+	@Test
+	public void testGetCommandInputExpectLeft() {
+		Character expectLeft = 'L';
+		assertEquals(expectLeft, rotateToLeft.getCommandInput());
+	}
+	
 }

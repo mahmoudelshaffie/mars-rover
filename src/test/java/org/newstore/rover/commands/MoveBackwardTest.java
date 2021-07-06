@@ -1,5 +1,6 @@
 package org.newstore.rover.commands;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.newstore.rover.commands.CommandMoveTest.target;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -77,5 +78,11 @@ public class MoveBackwardTest {
 			.given(currentLatitude, currentLongtitude, currentDirection)
 			.expect(expectLatitudeIncreasedByOne, currentLongtitude, currentDirection)
 			.test();
+	}
+	
+	@Test
+	public void testGetCommandInputExpectBackward() {
+		Character expectLeft = 'B';
+		assertEquals(expectLeft, moveBackward.getCommandInput());
 	}
 }
