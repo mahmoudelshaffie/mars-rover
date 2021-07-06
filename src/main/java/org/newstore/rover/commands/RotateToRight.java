@@ -16,6 +16,7 @@ public class RotateToRight implements Command {
 		rightDirections.put(Direction.NORTH, Direction.EAST);
 		rightDirections.put(Direction.EAST, Direction.SOUTH);
 		rightDirections.put(Direction.SOUTH, Direction.WEST);
+		rightDirections.put(Direction.WEST, Direction.NORTH);
 	}
 
 	@Override
