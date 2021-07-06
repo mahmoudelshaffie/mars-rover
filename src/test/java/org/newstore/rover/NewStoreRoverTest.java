@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.newstore.rover.PositionAssertions.assertPositionCoordinatesAndDirection;
 
@@ -26,6 +28,15 @@ public class NewStoreRoverTest {
 	private Character MOVE_FORWARD = 'F';
 	private Character MOVE_BACKWARD = 'B'; 
 	
+	private int latitude = 0;
+	private int longtitude = 0;
+	private Position initialPosition = new Position(latitude, longtitude, Direction.NORTH);
+	
+	private Position newPositionAfterMoveForward = new Position(12, 21, Direction.NORTH);
+	private Position newPositionAfterMoveForward_2 = new Position(12, 22, Direction.NORTH);
+	private Position newPositionAfterMoveBackward = new Position(14, 15, Direction.NORTH);
+	private Position newPositionAfterMoveBackward_2 = new Position(14, 14, Direction.NORTH);
+	
 	@Mock
 	private Command moveForwardMock;
 	
@@ -38,67 +49,73 @@ public class NewStoreRoverTest {
 	@Test
 	public void testMoveGivenBlankCommandWithoutAnyMovementRoverShouldSuccessfullStillInItsInitialPosition() {
 		// Given
-		int latitude = 0;
-		int longtitude = 0;
-		Position initialPosition = new Position(latitude, longtitude, Direction.NORTH);
 		String blankCommand = "";
 		
 		// Actual
 		Position actual = target(initialPosition).move(blankCommand);
 		
 		// Expected
-		int expectLatitudeNotChanged = 0;
-		int expectLongtitudeNotChanged = 0;
-		Direction expectDirectionNotChanged = Direction.NORTH;
-		
-		assertPositionCoordinatesAndDirection(expectLatitudeNotChanged, expectLongtitudeNotChanged, expectDirectionNotChanged, actual);
+		assertPositionCoordinatesAndDirection(initialPosition, actual);
 	}
 
 	@Test
 	public void testMoveGivenRegisteredForwardCommandShouldBeExecutedSuccessfullyAndRoverMoveToNewPosition() {
 		// Given
-		int latitude = 0;
-		int longtitude = 0;
-		Position initialPosition = new Position(latitude, longtitude, Direction.NORTH);
-		
 		String command = "F";
 		
 		doReturn(Optional.of(moveForwardMock)).when(commandRegisteryMock).getCommand(eq(MOVE_FORWARD));
-		Position newPositionAfterMoveForward = new Position(12, 21, Direction.NORTH);
 		when(moveForwardMock.move(any(Position.class))).thenReturn(newPositionAfterMoveForward);
 		
 		// Actual
 		Position actual = target(initialPosition).move(command);
 		
+		//Expected
 		assertPositionCoordinatesAndDirection(newPositionAfterMoveForward, actual);
 	}
 	
 	@Test
 	public void testMoveGivenRegisteredBackwardCommandShouldBeExecutedSuccessfullyAndRoverMoveToNewPosition() {
 		// Given
-		int latitude = 0;
-		int longtitude = 0;
-		Position initialPosition = new Position(latitude, longtitude, Direction.NORTH);
-		
-		doReturn(Optional.of(moveBackwardMock)).when(commandRegisteryMock).getCommand(eq(MOVE_BACKWARD));
-		Position newPositionAfterMoveForward = new Position(29, 123, Direction.SOUTH);
-		when(moveBackwardMock.move(any(Position.class))).thenReturn(newPositionAfterMoveForward);
-		
 		String command = "B";
+
+		doReturn(Optional.of(moveBackwardMock)).when(commandRegisteryMock).getCommand(eq(MOVE_BACKWARD));
+		when(moveBackwardMock.move(any(Position.class))).thenReturn(newPositionAfterMoveBackward);
 		
 		// Actual
 		Position actual = target(initialPosition).move(command);
 		
-		assertPositionCoordinatesAndDirection(newPositionAfterMoveForward, actual);
+		//
+		assertPositionCoordinatesAndDirection(newPositionAfterMoveBackward, actual);
+	}
+	
+	@Test
+	public void testMoveCommandOfMultipleRegisteredCommandsAllMovesShouldBeDoneAndRoverStoppedAtLastMovePosition() {
+		// Given
+		String command = "FBBF";
+		
+		doReturn(Optional.of(moveForwardMock)).when(commandRegisteryMock).getCommand(eq(MOVE_FORWARD));
+		doReturn(Optional.of(moveBackwardMock)).when(commandRegisteryMock).getCommand(eq(MOVE_BACKWARD));
+		
+		when(moveForwardMock.move(any(Position.class))).thenReturn(newPositionAfterMoveForward, newPositionAfterMoveForward_2);
+		when(moveBackwardMock.move(any(Position.class))).thenReturn(newPositionAfterMoveBackward, newPositionAfterMoveBackward_2);
+		
+		// Actual
+		Position actual = target(initialPosition).move(command);
+		
+		//Expected
+		Position lastMovePosition = newPositionAfterMoveForward_2;
+		assertPositionCoordinatesAndDirection(lastMovePosition, actual);
+		
+		// Verfiying Sequence Of Calls
+		verify(moveForwardMock, times(1)).move(eq(initialPosition));
+		verify(moveBackwardMock, times(1)).move(eq(newPositionAfterMoveForward));
+		verify(moveBackwardMock, times(1)).move(eq(newPositionAfterMoveBackward));
+		verify(moveForwardMock, times(1)).move(eq(newPositionAfterMoveBackward_2));
 	}
 	
 	@Test
 	public void testMoveGivenUnRegisteredCommandShouldFailWithInvalidCommandException() {
 		// Given
-		int latitude = 0;
-		int longtitude = 0;
-		Position initialPosition = new Position(latitude, longtitude, Direction.NORTH);
-		
 		String unRegisteredCommand = "!";
 		
 		assertThrows(InvalidCommandException.class, () ->  target(initialPosition).move(unRegisteredCommand));
