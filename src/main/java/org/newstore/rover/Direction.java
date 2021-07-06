@@ -6,9 +6,9 @@ public enum Direction {
 	private int forwardLongtitudeDelta;
 	private int forwardLatitudeDelta;
 	
-	private Direction(int forwardLongtitudeDelta, int forwardLatitudeDelta) {
-		this.forwardLongtitudeDelta = forwardLongtitudeDelta;
+	private Direction(int forwardLatitudeDelta, int forwardLongtitudeDelta) {
 		this.forwardLatitudeDelta = forwardLatitudeDelta;
+		this.forwardLongtitudeDelta = forwardLongtitudeDelta;
 	}
 	
 	public int getForwardLatitudeDelta() {
