@@ -21,32 +21,41 @@ public class PositionParser implements InputParser<Position> {
 	}
 	
 	private Position parseToPosition(String input) {
-		int startIndexOfCoordinates = getCooardinatesStartIndex(input);
-		int indexOfCoordinatesSeparator = getCooardinatesSeparatorIndex(input);
-		int indexOfEndCoordinates = getIndexOfTheEndOfCoordinates(input);
-		int latitude = parseLatitude(input, indexOfCoordinatesSeparator);
-		int longtitude = parseLongtitude(input, indexOfCoordinatesSeparator, indexOfEndCoordinates);
-		Direction direction = parseDirection(input, indexOfEndCoordinates);
-		return new Position(latitude, longtitude, direction);
+		int startOfCoordinates = getCooardinatesStartIndex(input);
+		int coordinatesSeparatorIndex = getCooardinatesSeparatorIndex(input, startOfCoordinates);
+		int endOfCoordinates = getIndexOfTheEndOfCoordinates(input, coordinatesSeparatorIndex);
+		try {
+			int latitude = parseLatitude(input, coordinatesSeparatorIndex);
+			int longtitude = parseLongtitude(input, coordinatesSeparatorIndex, endOfCoordinates);
+			Direction direction = parseDirection(input, endOfCoordinates);
+			return new Position(latitude, longtitude, direction);
+		} catch (Exception cause) {
+			throw new InvalidPositionInputException(input, POSITION_FORMAT, cause);
+		}
 	}
 	
 	private int getCooardinatesStartIndex(String input) {
 		final char startOfCoordinates = '(';
-		int startIndexOfCoordinates = input.indexOf(startOfCoordinates);
-		if (startIndexOfCoordinates == NOT_FOUND) {
+		int fromTheBegining = 0;
+		return findIndexOf(input, startOfCoordinates, fromTheBegining);
+	}
+	
+	private int getCooardinatesSeparatorIndex(String input, int startOfCoordinates) {
+		final char coordinatesSeparator = ',';
+		return findIndexOf(input, coordinatesSeparator, startOfCoordinates);
+	}
+	
+	private int getIndexOfTheEndOfCoordinates(String input, int coordinatesSeparatorIndex) {
+		final char endOfCoordinates = ')';
+		return findIndexOf(input, endOfCoordinates, coordinatesSeparatorIndex);
+	}
+	
+	private int findIndexOf(String input, char separtor, int fromIndex) {
+		int index = input.indexOf(separtor, fromIndex);
+		if (index == NOT_FOUND) {
 			throw new InvalidPositionInputException(input, POSITION_FORMAT);
 		}
-		return startIndexOfCoordinates;
-	}
-	
-	private int getCooardinatesSeparatorIndex(String input) {
-		final char coordinatesSeparator = ',';
-		return input.indexOf(coordinatesSeparator);
-	}
-	
-	private int getIndexOfTheEndOfCoordinates(String input) {
-		final char endOfCoordinates = ')';
-		return input.indexOf(endOfCoordinates);
+		return index;
 	}
 	
 	private int parseLatitude(String input, int indexOfCoordinatesSeparator) {
