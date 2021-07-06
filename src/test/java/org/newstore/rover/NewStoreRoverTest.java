@@ -131,4 +131,25 @@ public class NewStoreRoverTest {
 		
 		assertPositionCoordinatesAndDirection(expectLatitudeNotChanged, expectLongtitudedDecreasedByOne, expectDirectionNotChanged, actual);
 	}
+	
+	@Test
+	public void testMoveBackwardInSouthDirectionAfterInitializationPositionShouldLongtitudeIncreasedByOneSuccessfully() {
+		// Given
+		int latitude = 0;
+		int longtitude = 0;
+		Position initialPosition = new Position(latitude, longtitude, Direction.SOUTH);
+		
+		NewStoreMarsRover marsRover = new NewStoreMarsRover(initialPosition);
+		String command = "B";
+		
+		// Actual
+		Position actual = marsRover.move(command);
+		
+		// Expected
+		int expectLatitudeNotChanged = 0;
+		int expectLongtitudedIncreasedByOne = 1;
+		Direction expectDirectionNotChanged = Direction.SOUTH;
+		
+		assertPositionCoordinatesAndDirection(expectLatitudeNotChanged, expectLongtitudedIncreasedByOne, expectDirectionNotChanged, actual);
+	}
 }
