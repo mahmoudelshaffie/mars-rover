@@ -1,5 +1,6 @@
 package org.newstore.rover;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -136,6 +137,7 @@ public class NewStoreRoverTest {
 		//Expected
 		Position seconedMovePosition = newPositionAfterMoveBackward;
 		assertPositionCoordinatesAndDirection(seconedMovePosition, actual);
+		assertTrue("Expect robot to be stopped due to obstacle", actual.isStopped());
 		
 		// Verfiying Sequence Of Calls
 		verify(moveForwardMock, times(1)).move(eq(initialPosition));

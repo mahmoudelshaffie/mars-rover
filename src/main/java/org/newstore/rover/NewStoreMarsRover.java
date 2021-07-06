@@ -23,7 +23,14 @@ public class NewStoreMarsRover implements Rover {
 	public Position move(String command) {
 		char[] moves = command.toCharArray();
 		for (char move : moves) {
-			current = move(move);
+			Position newPosition = move(move);
+			if (isObstacle(newPosition)) {
+				current = current.stopped();
+				break;
+			} else {
+				current = newPosition;
+			}
+			
 		}
 		return current;
 	}
@@ -31,7 +38,10 @@ public class NewStoreMarsRover implements Rover {
 	private Position move(char move) {
 		Command command = commandRegistery.getCommand(move)
 											.orElseThrow(() -> new InvalidCommandException(move));
-		current = command.move(current);
-		return current;
+		return command.move(current);
+	}
+	
+	private boolean isObstacle(Position newPosition) {
+		return obstacles.containsKey(newPosition.getLatitude()) && obstacles.get(newPosition.getLatitude()).equals(newPosition.getLongtitude());
 	}
 }
