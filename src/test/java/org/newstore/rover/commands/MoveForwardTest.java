@@ -1,90 +1,81 @@
 package org.newstore.rover.commands;
 
-import static org.newstore.rover.PositionAssertions.assertPositionCoordinatesAndDirection;
+import static org.newstore.rover.commands.CommandMoveTest.target;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.newstore.rover.Direction;
-import org.newstore.rover.Position;
 
 public class MoveForwardTest {
 	
-	private MoveForward target;
+	private MoveForward moveForward;
 	
 	@BeforeEach
 	public void beforeEach() {
-		target = new MoveForward();
+		moveForward = new MoveForward();
 	}
 
 	@Test
 	public void testMoveGivenOnlyForwardToTheNorthFromInitialPositionShouldLongtitudeIncreasedByOneSuccessfully() {
 		// Given
-		int latitude = 0;
-		int longtitude = 0;
-		Position initialPosition = new Position(latitude, longtitude, Direction.NORTH);
-				
-		// Actual
-		Position actual = target.move(initialPosition);
-		
+		int currentLatitude = 0;
+		int currentLongtitude = 0;
+		Direction currentDirection = Direction.NORTH;
+
 		// Expected
-		int expectLatitudeNotChanged = 0;
 		int expectLongtitudedIncreasedByOne = 1;
-		Direction expectDirectionNotChanged = Direction.NORTH;
-		
-		assertPositionCoordinatesAndDirection(expectLatitudeNotChanged, expectLongtitudedIncreasedByOne, expectDirectionNotChanged, actual);
+
+		target(moveForward)
+			.given(currentLatitude, currentLongtitude, currentDirection)
+			.expect(currentLatitude, expectLongtitudedIncreasedByOne, currentDirection)
+			.test();
 	}
 	
 	@Test
 	public void testMoveGivenOnlyForwardToTheSouthFromInitialPositionShouldLongtitudeDecreasedByOneSuccessfully() {
 		// Given
-		int latitude = 0;
-		int longtitude = 0;
-		Position initialPosition = new Position(latitude, longtitude, Direction.SOUTH);
-		
-		// Actual
-		Position actual = target.move(initialPosition);
-		
+		int currentLatitude = 0;
+		int currentLongtitude = 0;
+		Direction currentDirection = Direction.SOUTH;
+
 		// Expected
-		int expectLatitudeNotChanged = 0;
 		int expectLongtitudedDecreasedByOne = -1;
-		Direction expectDirectionNotChanged = Direction.SOUTH;
-		
-		assertPositionCoordinatesAndDirection(expectLatitudeNotChanged, expectLongtitudedDecreasedByOne, expectDirectionNotChanged, actual);
+
+		target(moveForward)
+			.given(currentLatitude, currentLongtitude, currentDirection)
+			.expect(currentLatitude, expectLongtitudedDecreasedByOne, currentDirection)
+			.test();
 	}
 	
 	@Test
 	public void testMoveGivenOnlyForwardToEastFromInitialPositionShouldLatitudeIncreasedByOneSuccessfully() {
 		// Given
-		int latitude = 0;
-		int longtitude = 0;
-		Position initialPosition = new Position(latitude, longtitude, Direction.EAST);
-		
-		// Actual
-		Position actual = target.move(initialPosition);
-		
+		int currentLatitude = 0;
+		int currentLongtitude = 0;
+		Direction currentDirection = Direction.EAST;
+
 		// Expected
 		int expectLatitudeIncreaseByOne = 1;
-		int expectLongtitudedNotChanged = 0;
-		Direction expectDirectionNotChanged = Direction.EAST;
-		
-		assertPositionCoordinatesAndDirection(expectLatitudeIncreaseByOne, expectLongtitudedNotChanged, expectDirectionNotChanged, actual);
+
+		target(moveForward)
+			.given(currentLatitude, currentLongtitude, currentDirection)
+			.expect(expectLatitudeIncreaseByOne, currentLongtitude, currentDirection)
+			.test();
 	}
 	
 	@Test
 	public void testMoveGivenOnlyForwardToWestFromInitialPositionShouldLatitudedDecreasedByOneSuccessfully() {
 		// Given
-		int latitude = 0;
-		int longtitude = 0;
-		Position initialPosition = new Position(latitude, longtitude, Direction.WEST);
-		
-		// Actual
-		Position actual = target.move(initialPosition);
-		
+		int currentLatitude = 0;
+		int currentLongtitude = 0;
+		Direction currentDirection = Direction.WEST;
+
 		// Expected
 		int expectLatitudeDecreaseByOne = -1;
-		int expectLongtitudedNotChanged = 0;
-		Direction expectDirectionNotChanged = Direction.WEST;
-		
-		assertPositionCoordinatesAndDirection(expectLatitudeDecreaseByOne, expectLongtitudedNotChanged, expectDirectionNotChanged, actual);
+
+		target(moveForward)
+			.given(currentLatitude, currentLongtitude, currentDirection)
+			.expect(expectLatitudeDecreaseByOne, currentLongtitude, currentDirection)
+			.test();
 	}
 }
