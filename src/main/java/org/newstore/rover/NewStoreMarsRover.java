@@ -1,19 +1,16 @@
 package org.newstore.rover;
 
 import org.newstore.rover.commands.Command;
+import org.newstore.rover.commands.CommandRegistery;
 
 public class NewStoreMarsRover implements Rover {
 
-	private final Command moveForward;
-	private final Command moveBackward;
-	private final char FORWARD = 'F';
-	private final char BACKWARD = 'B';
 	private Position current;
+	private CommandRegistery commandRegistery;
 	
-	public NewStoreMarsRover(Position current, Command moveForward, Command moveBackward) {
+	public NewStoreMarsRover(Position current, CommandRegistery commandRegistery) {
 		this.current = current;
-		this.moveForward = moveForward;
-		this.moveBackward = moveBackward;
+		this.commandRegistery = commandRegistery;
 	}
 
 	@Override
@@ -26,22 +23,8 @@ public class NewStoreMarsRover implements Rover {
 	}
 	
 	private Position move(char move) {
-		Position newPosition;
-		
-		switch (move) {
-		case FORWARD:
-			newPosition = moveForward.move(current);
-			break;
-			
-		case BACKWARD:
-			newPosition = moveBackward.move(current);
-			break;
-
-		default:
-			newPosition = current;
-			break;
-		}
-		
-		return newPosition;
+		Command command = commandRegistery.getCommand(move).orElseThrow();
+		current = command.move(current);
+		return current;
 	}
 }
