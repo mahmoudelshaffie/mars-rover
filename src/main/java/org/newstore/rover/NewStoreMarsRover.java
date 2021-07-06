@@ -2,6 +2,7 @@ package org.newstore.rover;
 
 import org.newstore.rover.commands.Command;
 import org.newstore.rover.commands.CommandRegistery;
+import org.newstore.rover.commands.exceptions.InvalidCommandException;
 
 public class NewStoreMarsRover implements Rover {
 
@@ -23,7 +24,8 @@ public class NewStoreMarsRover implements Rover {
 	}
 	
 	private Position move(char move) {
-		Command command = commandRegistery.getCommand(move).orElseThrow();
+		Command command = commandRegistery.getCommand(move)
+											.orElseThrow(() -> new InvalidCommandException(move));
 		current = command.move(current);
 		return current;
 	}
