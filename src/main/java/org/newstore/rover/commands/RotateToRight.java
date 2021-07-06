@@ -14,6 +14,7 @@ public class RotateToRight implements Command {
 	public RotateToRight() {
 		rightDirections = new HashMap<>();
 		rightDirections.put(Direction.NORTH, Direction.EAST);
+		rightDirections.put(Direction.EAST, Direction.SOUTH);
 	}
 
 	@Override
