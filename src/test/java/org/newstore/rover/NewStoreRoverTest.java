@@ -117,6 +117,23 @@ public class NewStoreRoverTest {
 	}
 	
 	@Test
+	public void testMoveCommandOfMultipleCommandsOneIsNotRegisteredShouldFailWithInvalidCommandExceptionAndRoverIsNotMoved() {
+		// Given
+		String command = "FBBF#";
+		
+		doReturn(Optional.of(moveForwardMock)).when(commandRegisteryMock).getCommand(eq(MOVE_FORWARD));
+		doReturn(Optional.of(moveBackwardMock)).when(commandRegisteryMock).getCommand(eq(MOVE_BACKWARD));
+		doReturn(Optional.empty()).when(commandRegisteryMock).getCommand(eq('#'));
+		
+		// Actual
+		NewStoreMarsRover rover = target(initialPosition);
+		assertThrows(InvalidCommandException.class, () -> rover.move(command));
+		
+		Position actual = rover.getPosition();
+		assertPositionCoordinatesAndDirection(initialPosition, actual);
+	}
+	
+	@Test
 	public void testMoveCommandOfMultipleRegisteredCommandsGiveObstacleOnThirdMoveShouldRoverStoppedAtSeconedMovePosition() {
 		// Given
 		String command = "FBBF";
