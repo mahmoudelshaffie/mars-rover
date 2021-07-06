@@ -1,8 +1,6 @@
 package org.newstore.rover;
 
 import org.newstore.rover.commands.Command;
-import org.newstore.rover.commands.MoveBackward;
-import org.newstore.rover.commands.MoveForward;
 
 public class NewStoreMarsRover implements Rover {
 
