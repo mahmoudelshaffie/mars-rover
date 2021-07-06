@@ -40,4 +40,20 @@ public class RotateToLeftTest {
 			.expect(currentLatitude, currentLongtitude, expectedRotateToSouth)
 			.test();
 	}
+	
+	@Test
+	public void testRotateToLeftFromSouthShouldBeAtTheSameCooardinatesButRotatedToTheEastSuccessfully() {
+		// Given
+		int currentLatitude = 0;
+		int currentLongtitude = 0;
+		Direction currentDirection = Direction.SOUTH;
+
+		// Expected
+		Direction expectedRotateToEast = Direction.EAST;
+
+		target(rotateToLeft)
+			.given(currentLatitude, currentLongtitude, currentDirection)
+			.expect(currentLatitude, currentLongtitude, expectedRotateToEast)
+			.test();
+	}
 }
