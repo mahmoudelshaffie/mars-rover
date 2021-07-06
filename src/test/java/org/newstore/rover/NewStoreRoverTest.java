@@ -9,6 +9,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.newstore.rover.PositionAssertions.assertPositionCoordinatesAndDirection;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -114,6 +116,34 @@ public class NewStoreRoverTest {
 	}
 	
 	@Test
+	public void testMoveCommandOfMultipleRegisteredCommandsGiveObstacleOnThirdMoveShouldRoverStoppedAtSeconedMovePosition() {
+		// Given
+		String command = "FBBF";
+		
+		doReturn(Optional.of(moveForwardMock)).when(commandRegisteryMock).getCommand(eq(MOVE_FORWARD));
+		doReturn(Optional.of(moveBackwardMock)).when(commandRegisteryMock).getCommand(eq(MOVE_BACKWARD));
+		
+		when(moveForwardMock.move(any(Position.class))).thenReturn(newPositionAfterMoveForward, newPositionAfterMoveForward_2);
+		when(moveBackwardMock.move(any(Position.class))).thenReturn(newPositionAfterMoveBackward, newPositionAfterMoveBackward_2);
+		
+		Position expectedThirdPosition = newPositionAfterMoveBackward_2;
+		Map<Integer, Integer> obstacles = new HashMap<>();
+		obstacles.put(expectedThirdPosition.getLatitude(), expectedThirdPosition.getLongtitude());
+		
+		// Actual
+		Position actual = target(initialPosition, obstacles).move(command);
+		
+		//Expected
+		Position seconedMovePosition = newPositionAfterMoveBackward;
+		assertPositionCoordinatesAndDirection(seconedMovePosition, actual);
+		
+		// Verfiying Sequence Of Calls
+		verify(moveForwardMock, times(1)).move(eq(initialPosition));
+		verify(moveBackwardMock, times(1)).move(eq(newPositionAfterMoveForward));
+		verify(moveBackwardMock, times(1)).move(eq(newPositionAfterMoveBackward));
+	}
+	
+	@Test
 	public void testMoveGivenUnRegisteredCommandShouldFailWithInvalidCommandException() {
 		// Given
 		String unRegisteredCommand = "!";
@@ -122,6 +152,11 @@ public class NewStoreRoverTest {
 	}
 	
 	private NewStoreMarsRover target(Position initialPosition) {
-		return new NewStoreMarsRover(initialPosition, commandRegisteryMock);
+		Map<Integer, Integer> noObstacles = new HashMap<>();
+		return target(initialPosition, noObstacles);
+	}
+	
+	private NewStoreMarsRover target(Position initialPosition, Map<Integer, Integer> obstacles) {
+		return new NewStoreMarsRover(initialPosition, commandRegisteryMock, obstacles);
 	}
 }
