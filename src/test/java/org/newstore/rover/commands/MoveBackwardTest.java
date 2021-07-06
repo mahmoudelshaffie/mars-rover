@@ -1,12 +1,10 @@
 package org.newstore.rover.commands;
 
-import static org.newstore.rover.PositionAssertions.assertPositionCoordinatesAndDirection;
 import static org.newstore.rover.commands.CommandMoveTest.target;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.newstore.rover.Direction;
-import org.newstore.rover.Position;
 
 public class MoveBackwardTest {
 
@@ -36,57 +34,48 @@ public class MoveBackwardTest {
 	@Test
 	public void testMoveBackwardInSouthDirectionAfterInitializationPositionShouldLongtitudeIncreasedByOneSuccessfully() {
 		// Given
-		int latitude = 0;
-		int longtitude = 0;
-		Position initialPosition = new Position(latitude, longtitude, Direction.SOUTH);
-
-		// Actual
-		Position actual = moveBackward.move(initialPosition);
+		int currentLatitude = 0;
+		int currentLongtitude = 0;
+		Direction currentDirection = Direction.SOUTH;
 
 		// Expected
-		int expectLatitudeNotChanged = 0;
 		int expectLongtitudedIncreasedByOne = 1;
-		Direction expectDirectionNotChanged = Direction.SOUTH;
 
-		assertPositionCoordinatesAndDirection(expectLatitudeNotChanged, expectLongtitudedIncreasedByOne,
-				expectDirectionNotChanged, actual);
+		target(moveBackward)
+			.given(currentLatitude, currentLongtitude, currentDirection)
+			.expect(currentLatitude, expectLongtitudedIncreasedByOne, currentDirection)
+			.test();
 	}
 
 	@Test
 	public void testMoveBackwardInEastDirectionAfterInitializationPositionShouldLatitudeDecreasedByOneSuccessfully() {
 		// Given
-		int latitude = 0;
-		int longtitude = 0;
-		Position initialPosition = new Position(latitude, longtitude, Direction.EAST);
-
-		// Actual
-		Position actual = moveBackward.move(initialPosition);
+		int currentLatitude = 0;
+		int currentLongtitude = 0;
+		Direction currentDirection = Direction.EAST;
 
 		// Expected
 		int expectLatitudeDecreasedByOne = -1;
-		int expectLongtitudedNotChanged = 0;
-		Direction expectDirectionNotChanged = Direction.EAST;
 
-		assertPositionCoordinatesAndDirection(expectLatitudeDecreasedByOne, expectLongtitudedNotChanged,
-				expectDirectionNotChanged, actual);
+		target(moveBackward)
+			.given(currentLatitude, currentLongtitude, currentDirection)
+			.expect(expectLatitudeDecreasedByOne, currentLongtitude, currentDirection)
+			.test();
 	}
 
 	@Test
 	public void testMoveBackwardInWestDirectionAfterInitializationPositionShouldLatitudeIncreasedByOneSuccessfully() {
 		// Given
-		int latitude = 0;
-		int longtitude = 0;
-		Position initialPosition = new Position(latitude, longtitude, Direction.WEST);
-
-		// Actual
-		Position actual = moveBackward.move(initialPosition);
+		int currentLatitude = 0;
+		int currentLongtitude = 0;
+		Direction currentDirection = Direction.WEST;
 
 		// Expected
 		int expectLatitudeIncreasedByOne = 1;
-		int expectLongtitudedNotChanged = 0;
-		Direction expectDirectionNotChanged = Direction.WEST;
 
-		assertPositionCoordinatesAndDirection(expectLatitudeIncreasedByOne, expectLongtitudedNotChanged,
-				expectDirectionNotChanged, actual);
+		target(moveBackward)
+			.given(currentLatitude, currentLongtitude, currentDirection)
+			.expect(expectLatitudeIncreasedByOne, currentLongtitude, currentDirection)
+			.test();
 	}
 }
