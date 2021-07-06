@@ -152,4 +152,46 @@ public class NewStoreRoverTest {
 		
 		assertPositionCoordinatesAndDirection(expectLatitudeNotChanged, expectLongtitudedIncreasedByOne, expectDirectionNotChanged, actual);
 	}
+	
+	@Test
+	public void testMoveBackwardInEastDirectionAfterInitializationPositionShouldLatitudeDecreasedByOneSuccessfully() {
+		// Given
+		int latitude = 0;
+		int longtitude = 0;
+		Position initialPosition = new Position(latitude, longtitude, Direction.EAST);
+		
+		NewStoreMarsRover marsRover = new NewStoreMarsRover(initialPosition);
+		String command = "B";
+		
+		// Actual
+		Position actual = marsRover.move(command);
+		
+		// Expected
+		int expectLatitudeDecreasedByOne = -1;
+		int expectLongtitudedNotChanged = 0;
+		Direction expectDirectionNotChanged = Direction.EAST;
+		
+		assertPositionCoordinatesAndDirection(expectLatitudeDecreasedByOne, expectLongtitudedNotChanged, expectDirectionNotChanged, actual);
+	}
+	
+	@Test
+	public void testMoveBackwardInWestDirectionAfterInitializationPositionShouldLatitudeIncreasedByOneSuccessfully() {
+		// Given
+		int latitude = 0;
+		int longtitude = 0;
+		Position initialPosition = new Position(latitude, longtitude, Direction.WEST);
+		
+		NewStoreMarsRover marsRover = new NewStoreMarsRover(initialPosition);
+		String command = "B";
+		
+		// Actual
+		Position actual = marsRover.move(command);
+		
+		// Expected
+		int expectLatitudeIncreasedByOne = 1;
+		int expectLongtitudedNotChanged = 0;
+		Direction expectDirectionNotChanged = Direction.WEST;
+		
+		assertPositionCoordinatesAndDirection(expectLatitudeIncreasedByOne, expectLongtitudedNotChanged, expectDirectionNotChanged, actual);
+	}
 }
