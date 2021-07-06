@@ -125,6 +125,9 @@ public class NewStoreRoverTest {
 		doReturn(Optional.of(moveBackwardMock)).when(commandRegisteryMock).getCommand(eq(MOVE_BACKWARD));
 		doReturn(Optional.empty()).when(commandRegisteryMock).getCommand(eq('#'));
 		
+		when(moveForwardMock.move(any(Position.class))).thenReturn(newPositionAfterMoveForward, newPositionAfterMoveForward_2);
+		when(moveBackwardMock.move(any(Position.class))).thenReturn(newPositionAfterMoveBackward, newPositionAfterMoveBackward_2);
+		
 		// Actual
 		NewStoreMarsRover rover = target(initialPosition);
 		assertThrows(InvalidCommandException.class, () -> rover.move(command));

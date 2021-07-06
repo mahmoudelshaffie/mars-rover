@@ -22,17 +22,20 @@ public class NewStoreMarsRover implements Rover {
 	@Override
 	public Position move(String command) {
 		char[] moves = command.toCharArray();
-		validateCommand(moves);
+		
+		Position lastPosition = current;
+		
 		for (char move : moves) {
-			Position newPosition = move(move);
+			Position newPosition = move(move, lastPosition);
 			if (isObstacle(newPosition)) {
-				current = current.stopped();
+				lastPosition = lastPosition.stopped();
 				break;
 			} else {
-				current = newPosition;
+				lastPosition = newPosition;
 			}
-			
 		}
+		
+		current = lastPosition;
 		return current;
 	}
 	
@@ -40,20 +43,16 @@ public class NewStoreMarsRover implements Rover {
 		return current;
 	}
 	
-	private Position move(char move) {
-		Command command = commandRegistery.getCommand(move).get();
-		return command.move(current);
+	private Position move(char move, Position from) {
+		Command command = commandRegistery
+								.getCommand(move)
+								.orElseThrow(() -> new InvalidCommandException(move));
+		
+		return command.move(from);
 	}
 	
 	private boolean isObstacle(Position newPosition) {
-		return obstacles.containsKey(newPosition.getLatitude()) && obstacles.get(newPosition.getLatitude()).equals(newPosition.getLongtitude());
-	}
-	
-	private void validateCommand(char[] moves) {
-		for (char move : moves) {
-			if (commandRegistery.getCommand(move).isEmpty()) {
-				throw new InvalidCommandException(move);
-			}
-		}
+		return obstacles.containsKey(newPosition.getLatitude()) 
+				&& obstacles.get(newPosition.getLatitude()).equals(newPosition.getLongtitude());
 	}
 }
