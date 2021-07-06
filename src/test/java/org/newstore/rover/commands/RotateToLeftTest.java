@@ -25,4 +25,19 @@ public class RotateToLeftTest {
 			.test();
 	}
 	
+	@Test
+	public void testRotateToLeftFromWestShouldBeAtTheSameCooardinatesButRotatedToTheSouthSuccessfully() {
+		// Given
+		int currentLatitude = 0;
+		int currentLongtitude = 0;
+		Direction currentDirection = Direction.WEST;
+
+		// Expected
+		Direction expectedRotateToSouth = Direction.SOUTH;
+
+		target(rotateToLeft)
+			.given(currentLatitude, currentLongtitude, currentDirection)
+			.expect(currentLatitude, currentLongtitude, expectedRotateToSouth)
+			.test();
+	}
 }
