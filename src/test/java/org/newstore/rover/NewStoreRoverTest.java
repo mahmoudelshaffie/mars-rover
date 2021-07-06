@@ -1,6 +1,5 @@
 package org.newstore.rover;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.newstore.rover.PositionAssertions.assertPositionCoordinatesAndDirection;
 
 import org.junit.jupiter.api.Test;
@@ -110,5 +109,26 @@ public class NewStoreRoverTest {
 		Direction expectDirectionNotChanged = Direction.WEST;
 		
 		assertPositionCoordinatesAndDirection(expectLatitudeDecreaseByOne, expectLongtitudedNotChanged, expectDirectionNotChanged, actual);
-	}	
+	}
+	
+	@Test
+	public void testMoveBackwardFromNorthIAfterInitializationPositionShouldLongtitudeDecreasedByOneSuccessfully() {
+		// Given
+		int latitude = 0;
+		int longtitude = 0;
+		Position initialPosition = new Position(latitude, longtitude, Direction.NORTH);
+		
+		NewStoreMarsRover marsRover = new NewStoreMarsRover(initialPosition);
+		String command = "B";
+		
+		// Actual
+		Position actual = marsRover.move(command);
+		
+		// Expected
+		int expectLatitudeNotChanged = 0;
+		int expectLongtitudedDecreasedByOne = -1;
+		Direction expectDirectionNotChanged = Direction.NORTH;
+		
+		assertPositionCoordinatesAndDirection(expectLatitudeNotChanged, expectLongtitudedDecreasedByOne, expectDirectionNotChanged, actual);
+	}
 }
