@@ -6,10 +6,9 @@ import java.util.Optional;
 
 public class CommandRegistery {
 
-	private static CommandRegistery registery;
 	private Map<Character, Command> commands;
 	
-	private CommandRegistery(Command...commandsToRegister) {
+	public CommandRegistery(Command...commandsToRegister) {
 		commands = new HashMap<>();
 		for (Command command : commandsToRegister) {
 			commands.put(command.getCommandInput(), command);
@@ -21,9 +20,6 @@ public class CommandRegistery {
 	}
 	
 	public static CommandRegistery register(Command...commandsToRegister) {
-		if (registery == null) {
-			registery = new CommandRegistery(commandsToRegister);
-		}
-		return registery;
+		return new CommandRegistery(commandsToRegister);
 	}
 }
