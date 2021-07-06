@@ -14,6 +14,10 @@ public class RotateToLeft implements Command {
 		case NORTH:
 			newDirection = Direction.WEST;
 			break;
+			
+		case WEST:
+			newDirection = Direction.SOUTH;
+			break;
 
 		default:
 			newDirection = currentDirection;
