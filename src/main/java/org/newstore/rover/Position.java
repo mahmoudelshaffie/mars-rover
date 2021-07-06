@@ -35,4 +35,8 @@ public class Position {
 		int newLongtitude = longtitude + longtitudeDelta;
 		return new Position(newLatitude, newLongtitude, direction);
 	}
+	
+	public Position newDirection(Direction newDirection) {
+		return new Position(latitude, longtitude, newDirection); 
+	}
 }
