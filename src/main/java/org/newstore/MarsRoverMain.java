@@ -3,6 +3,7 @@ package org.newstore;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.newstore.parsing.ObstaclesParser;
 import org.newstore.parsing.PositionParser;
 import org.newstore.rover.NewStoreMarsRover;
 import org.newstore.rover.Position;
@@ -18,6 +19,7 @@ public class MarsRoverMain {
 
 	private static int START_POSITION_ARG = 0;
 	private static int COMMAND_ARG = 1;
+	private static int OBSTACLES_ARG = 2;
 	
 	public static void main(String[] args) {
 		try {			
@@ -25,7 +27,7 @@ public class MarsRoverMain {
 			Position startPosition = getInitialPosition(args);
 			String command = getCommand(args);
 			
-			Map<Integer, Integer> obstacles = new HashMap<>();
+			Map<Integer, Integer> obstacles = getObstacles(args);
 			
 			Rover rover = new NewStoreMarsRover(startPosition, commandsRegistery, obstacles);
 			Position newPosition = rover.move(command);
@@ -60,5 +62,15 @@ public class MarsRoverMain {
 		}
 		
 		return args[COMMAND_ARG];
+	}
+	
+	private static Map<Integer, Integer> getObstacles(String[] args) {
+		Map<Integer, Integer> obstacles = new HashMap<>();
+		
+		if (args.length == OBSTACLES_ARG + 1) {
+			obstacles = new ObstaclesParser().parse(args[OBSTACLES_ARG]);
+		}
+		
+		return obstacles;
 	}
 }
