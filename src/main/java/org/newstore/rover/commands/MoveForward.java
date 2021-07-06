@@ -6,6 +6,8 @@ public class MoveForward implements Command {
 	
 	@Override
 	public Position move(Position current) {
-		throw new UnsupportedOperationException();
+		int latitudeDelta = current.getDirection().getForwardLatitudeDelta();
+		int longtitudeDelta = current.getDirection().getForwardLongtitudeDelta();
+		return current.add(latitudeDelta, longtitudeDelta);
 	}
 }
