@@ -1,6 +1,7 @@
 package org.newstore.rover;
 
 import org.newstore.rover.commands.Command;
+import org.newstore.rover.commands.MoveBackward;
 import org.newstore.rover.commands.MoveForward;
 
 public class NewStoreMarsRover implements Rover {
@@ -8,6 +9,7 @@ public class NewStoreMarsRover implements Rover {
 	private final char FORWARD = 'F';
 	private final char BACKWARD = 'B';
 	private final Command moveForward = new MoveForward();
+	private final Command moveBackward = new MoveBackward();
 	private Position current;
 	
 	public NewStoreMarsRover(Position current) {
@@ -32,7 +34,7 @@ public class NewStoreMarsRover implements Rover {
 			break;
 			
 		case BACKWARD:
-			newPosition = moveBackward();
+			newPosition = moveBackward.move(current);
 			break;
 
 		default:
@@ -41,11 +43,5 @@ public class NewStoreMarsRover implements Rover {
 		}
 		
 		return newPosition;
-	}
-	
-	private Position moveBackward() {
-		int latitudeDelta = current.getDirection().getForwardLatitudeDelta() * -1;
-		int longtitudeDelta = current.getDirection().getForwardLongtitudeDelta() * -1;
-		return current.add(latitudeDelta, longtitudeDelta);
 	}
 }
