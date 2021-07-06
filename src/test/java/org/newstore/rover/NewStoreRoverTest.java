@@ -1,5 +1,6 @@
 package org.newstore.rover;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
@@ -16,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.newstore.rover.commands.Command;
 import org.newstore.rover.commands.CommandRegistery;
+import org.newstore.rover.commands.exceptions.InvalidCommandException;
 
 @ExtendWith(MockitoExtension.class)
 @RunWith(JUnitPlatform.class)
@@ -88,6 +90,18 @@ public class NewStoreRoverTest {
 		Position actual = target(initialPosition).move(command);
 		
 		assertPositionCoordinatesAndDirection(newPositionAfterMoveForward, actual);
+	}
+	
+	@Test
+	public void testMoveGivenUnRegisteredCommandShouldFailWithInvalidCommandException() {
+		// Given
+		int latitude = 0;
+		int longtitude = 0;
+		Position initialPosition = new Position(latitude, longtitude, Direction.NORTH);
+		
+		String unRegisteredCommand = "!";
+		
+		assertThrows(InvalidCommandException.class, () ->  target(initialPosition).move(unRegisteredCommand));
 	}
 	
 	private NewStoreMarsRover target(Position initialPosition) {
