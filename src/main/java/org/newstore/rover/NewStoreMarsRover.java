@@ -6,14 +6,16 @@ import org.newstore.rover.commands.MoveForward;
 
 public class NewStoreMarsRover implements Rover {
 
+	private final Command moveForward;
+	private final Command moveBackward;
 	private final char FORWARD = 'F';
 	private final char BACKWARD = 'B';
-	private final Command moveForward = new MoveForward();
-	private final Command moveBackward = new MoveBackward();
 	private Position current;
 	
-	public NewStoreMarsRover(Position current) {
+	public NewStoreMarsRover(Position current, Command moveForward, Command moveBackward) {
 		this.current = current;
+		this.moveForward = moveForward;
+		this.moveBackward = moveBackward;
 	}
 
 	@Override
